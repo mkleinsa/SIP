@@ -19,8 +19,6 @@ phenotype_IBD_correlation(
 \item{id.var, ibd.var}{Strings}
 
 \item{pheno.vars, rid.vars}{Character vectors}
-
-\item{seed}{Number}
 }
 \value{
 Correlation

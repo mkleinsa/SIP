@@ -39,6 +39,7 @@
 #' @param male.val,female.val Strings or integers
 #' @param geno.vars Character vectors
 #' @param seed Number
+#' @param within.sex Boolean (TRUE/FALSE)
 #' @returns Data frame
 #' @export
 #' @examples
@@ -55,26 +56,25 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
 
       # input checks #
 
-      if (is.null(df) | is.null(id.var) | is.null(geno.vars)) {
-        stop("Error: One or more required inputs have null values.
-             Please check your variable assignments.")
+      if (missing(df) || is.null(df) ||
+          missing(id.var) || is.null(id.var) ||
+          missing(geno.vars) || is.null(geno.vars)) {
+        stop("`df`, `id.var`, and `geno.vars` must be provided.")
       }
 
-      if (typeof(df) != "list" | is.integer(ncol(df))==FALSE
-          | is.integer(nrow(df))==FALSE) {
+      if (!is.data.frame(df)) {
         stop("Error: df file is not properly formatted.
              Please input a sample-by-variable dataframe.")
-      } else {
-        df <- as.data.frame(df)
-      }
+      } #else {
+        #df <- as.data.frame(df)
+      #}
 
-      if (FALSE %in% (id.var %in% colnames(df))) {
+      if (!(id.var %in% colnames(df))) {
         stop("Error: ID variable is not in df column names.
              Please input one ID variables as a string.")
       }
 
-      if (!(TRUE %in% is.na(geno.vars))
-          & (FALSE %in% (geno.vars %in% colnames(df)))) {
+      if (!all(geno.vars %in% names(df))) {
         stop("Error: Genotypic variables are not in df column names.
              Please input genotypic variable names as a vector of strings.")
       }
@@ -86,13 +86,13 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
       # divide df by sex #
       if (within.sex) {
 
-        if (is.null(sex.var) | is.null(male.val) | is.null(female.val)) {
+        if (missing(sex.var) || missing(male.val) || missing(female.val)) {
           stop("Error: One or more sex-related inputs have null values.
              Please check your variable assignments or choose
              'within.sex = FALSE' to ignore sex while permuting.")
         }
 
-        if (FALSE %in% (sex.var %in% colnames(df))) {
+        if (!(sex.var %in% colnames(df))) {
           stop("Error: Sex variable is not in df column names.
              Please input a sex variable as a string or choose
              'within.sex = FALSE' to ignore sex while permuting.")
@@ -102,8 +102,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
           stop("Error: more than two sexes detected in the sex column.")
         }
 
-        if (FALSE %in% ((unique(df[[sex.var]]))
-                        %in% c(male.val, female.val))) {
+        if (!all(unique(df[[sex.var]]) %in% c(male.val, female.val))) {
           stop("Error: sex values do not match the male
              or female values provides. Please input proper sex values
              (e.g., male.val=1, female.val=2).")
@@ -138,7 +137,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         if (is.null(seed)) {
           seed <- sample(seq(999999), 1)
         }
-        print(paste("Seed:",seed))
+        message(paste("Seed:",seed))
 
         # get permutation index #
         if (female.val %in% unique(df[[sex.var]])) {
@@ -181,10 +180,10 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
         pheno[[id.var]] <- NULL
 
         # set seed #
-        if (is.null(seed)) {
+        if (missing(seed)) {
           seed <- sample(seq(999999), 1)
         }
-        print(paste("Seed:",seed))
+        message(paste("Seed:",seed))
 
         # get permutation index #
         idx <- get_permIdx(df = df, seed = seed)
@@ -199,7 +198,7 @@ sip <- function(df = NULL, id.var = NULL, sex.var = NULL, male.val = NULL,
       return(operm)
 
     }, error = function(e){
-      print(
+      message(
         sprintf("An error occurred at %s : %s",
                 Sys.time(),
                 e)

@@ -16,7 +16,7 @@ Briefly, the SIP method takes advantage of analyzing many phenotypes across a bi
 ## SIP Example
 
 ```{r SIP load data, echo = FALSE}
-load("~/SIP/data/sip_exampleData.rda")
+data("sip_exampleData")
 ```
 
 The basic permutation procedure can be used with unrelated samples. SIP requires a sample-by-variable input file containing an ID, genotypic covariates, phenotypes, and phenotypic covariates: 
@@ -48,8 +48,8 @@ sip(df = sip_exampleData, id.var = "IID", within.sex = FALSE, geno.vars = c("FID
 The paired permutation procedure should  be used with related samples:
 
 ```{r SIP pair load data, echo = FALSE}
-load("~/SIP/data/sipPair_exampleData.rda")
-load("~/SIP/data/sipPair_relatednessData.rda")
+data("sipPair_exampleData")
+data("sipPair_relatednessData")
 sipPair_relatednessData <- sipPair_relatednessData[sample(seq(nrow(sipPair_relatednessData), nrow(sipPair_relatednessData))),]
 ```
 

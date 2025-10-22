@@ -7,7 +7,6 @@
 \format{
 A data frame with 9886 rows and 4 variables:
 \describe{
-  \item{FID}{Family ID.}
   \item{IID1}{Individual ID for one sample.}
   \item{IID2}{Iindividual ID for a second sample.}
   \item{PropIBD}{Identity-by-descent proportion of genome shared

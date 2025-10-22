@@ -28,6 +28,8 @@ sip_pair(
 
 \item{geno.vars, rid.vars}{Character vectors}
 
+\item{within.sex}{Boolean (TRUE/FALSE)}
+
 \item{seed}{Number}
 }
 \value{

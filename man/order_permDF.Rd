@@ -10,7 +10,7 @@ order_permDF(df = df, perm = perm, id.var = id.var)
 \arguments{
 \item{df, perm}{Data frames}
 
-\item{ibd.var}{String}
+\item{id.var}{String}
 }
 \value{
 Data frame

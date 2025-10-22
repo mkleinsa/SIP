@@ -80,7 +80,7 @@ plot_phenotype_correlations <- function(df = NULL, pheno.vars = NULL) {
         ggplot2::scale_fill_viridis_c()
 
       }, error = function(e){
-        print(
+        message(
           sprintf("An error occurred at %s : %s",
                   Sys.time(),
                   e)

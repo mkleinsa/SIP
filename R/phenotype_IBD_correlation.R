@@ -132,11 +132,11 @@ phenotype_IBD_correlation <- function(df = NULL, rel.df = NULL,
         return(stats::cor(as.data.frame(picor)[,c(ibd.var,
                                                   "pheno_correlation")])[2])
       } else {
-        print("Error")
+        message("Error")
       }
 
     }, error = function(e){
-      print(
+      message(
         sprintf("An error occurred at %s : %s",
                 Sys.time(),
                 e)
